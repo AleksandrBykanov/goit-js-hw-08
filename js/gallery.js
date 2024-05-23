@@ -63,4 +63,51 @@ const images = [
       description: 'Lighthouse Coast Sea',
     },
   ];
+
+const gallery = document.querySelector('.gallery')
+
+function itemGallery(images) {
+  return `
+    <li class="gallery-item">
+      <a class="gallery-link" href="large-image.jpg">
+        <img
+          class="gallery-image"
+          src="${images.preview}"
+          data-source="${images.original}"
+          alt="${images.description}"
+        />
+      </a>
+    </li>`
+}
+
+function itemsGallery(arr) {
+  return arr.map(itemGallery).join('');
+}
+
+const markup = itemsGallery(images);
+
+gallery.innerHTML = markup;
+
+
   
+
+
+
+
+
+
+
+
+//   const instance = basicLightbox.create(`
+//   <div class="modal">
+//       <p>
+//           Your first lightbox with just a few lines of code.
+//           Yes, it's really that simple.
+//       </p>
+//   </div>
+// `, {
+// 	onShow: (instance) => {},
+// 	onClose: (instance) => {}
+// });
+
+// instance.show()
