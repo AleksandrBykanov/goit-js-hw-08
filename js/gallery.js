@@ -64,12 +64,12 @@ const images = [
     },
   ];
 
-const gallery = document.querySelector('.gallery')
+const gallery = document.querySelector('.gallery');
 
 function itemGallery(images) {
   return `
     <li class="gallery-item">
-      <a class="gallery-link" href="large-image.jpg">
+      <a class="gallery-link" href="#">
         <img
           class="gallery-image"
           src="${images.preview}"
@@ -77,7 +77,7 @@ function itemGallery(images) {
           alt="${images.description}"
         />
       </a>
-    </li>`
+    </li>`;
 }
 
 function itemsGallery(arr) {
@@ -88,26 +88,36 @@ const markup = itemsGallery(images);
 
 gallery.innerHTML = markup;
 
-
+gallery.addEventListener('click', (e)=>{
+  if(e.target === e.currentTarget) return;
+  const img = e.target.closest('img');
+  const description = img.alt;
+  const image = images.find(el => el.description === description);
   
+  const markup = `
+  <li class="gallery-item">
+    <a class="gallery-link" href="#">
+      <img
+        class="gallery-image"
+        src="${image.preview}"
+        data-source="${image.original}"
+        alt="${image.description}"
+      /></a></li>`;
 
+  const instance = basicLightbox.create(markup, {
+    onShow: instance => {
+      window.addEventListener('keydown', onModalClose);
+    },
+    onClose: instance => {
+      window.addEventListener('keydown', onModalClose);
+    }
+  });
+  instance.show();
 
-
-
-
-
-
-
-//   const instance = basicLightbox.create(`
-//   <div class="modal">
-//       <p>
-//           Your first lightbox with just a few lines of code.
-//           Yes, it's really that simple.
-//       </p>
-//   </div>
-// `, {
-// 	onShow: (instance) => {},
-// 	onClose: (instance) => {}
-// });
-
-// instance.show()
+  function onModalClose(e) {
+    if (e.code === 'Escape') {
+      instance.close();
+    }
+  }
+})
+  
