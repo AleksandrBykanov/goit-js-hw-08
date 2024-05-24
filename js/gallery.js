@@ -69,7 +69,7 @@ const gallery = document.querySelector('.gallery');
 function itemGallery(images) {
   return `
     <li class="gallery-item">
-      <a class="gallery-link" href="#">
+      <a class="gallery-link" href="${images.original}">
         <img
           class="gallery-image"
           src="${images.preview}"
@@ -89,6 +89,7 @@ const markup = itemsGallery(images);
 gallery.innerHTML = markup;
 
 gallery.addEventListener('click', (e)=>{
+  e.preventDefault();
   if(e.target === e.currentTarget) return;
   const img = e.target.closest('img');
   const description = img.alt;
@@ -112,12 +113,13 @@ gallery.addEventListener('click', (e)=>{
       window.addEventListener('keydown', onModalClose);
     }
   });
-  instance.show();
-
+  
   function onModalClose(e) {
     if (e.code === 'Escape') {
       instance.close();
     }
   }
+
+  instance.show();
 })
   
